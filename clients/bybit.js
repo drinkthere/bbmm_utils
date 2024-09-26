@@ -1,6 +1,7 @@
 const { RestClientV5, WebsocketClient } = require("bybit-api");
 const { v4: uuidv4 } = require("uuid");
 const { sleep } = require("../utils/run");
+const { genClientOrderId } = require("../utils/common");
 
 // 加载.env文件
 const dotenv = require("dotenv");
@@ -236,6 +237,49 @@ class BybitClient {
 
     async wsOrders() {
         await this.wsClient.subscribeV5("order", "linear", true);
+    }
+
+    async wsConnectTrade() {
+        return this.wsClient.connectTrade();
+    }
+
+    async wsPlaceLinearOrder(symbol, side, price, qty, orderLinkId) {
+        const reqId = genClientOrderId();
+        const orders = [
+            {
+                category: "linear",
+                symbol,
+                side,
+                price,
+                qty,
+                orderLinkId: orderLinkId,
+                orderType: "Limit",
+                timeInForce: "PostOnly",
+            },
+        ];
+        return await this.wsClient.wsPlaceOrders(
+            reqId,
+            "linear",
+            "order.create",
+            orders
+        );
+    }
+
+    async wsCancelLinearOrder(symbol, orderLinkId) {
+        const reqId = genClientOrderId();
+        const orders = [
+            {
+                category: "linear",
+                symbol,
+                orderLinkId: orderLinkId,
+            },
+        ];
+        return await this.wsClient.wsCancelOrders(
+            reqId,
+            "linear",
+            "order.cancel",
+            orders
+        );
     }
 }
 module.exports = BybitClient;

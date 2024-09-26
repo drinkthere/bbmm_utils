@@ -71,7 +71,6 @@ const main = async () => {
         await exchangeClient.wsCancelLinearOrder(symbol, clientOrderId);
         console.log(`${clientOrderId} CANCELSUBMITTED ${Date.now()}`);
         await sleep(1 * 1000);
-        process.exit();
     });
 };
 main();
