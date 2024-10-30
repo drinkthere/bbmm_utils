@@ -127,6 +127,22 @@ class BybitClient {
         }
     }
 
+    async cancelLinearOrder(symbol, orderLinkId) {
+        let params = {
+            category: "linear",
+            symbol,
+            orderLinkId,
+        };
+
+        const resp = await this.client.cancelOrder(params);
+        if (resp.retCode === 0) {
+            return resp.result;
+        } else {
+            console.error("cancelLinearOrder FAILED, error: ", resp);
+            return [];
+        }
+    }
+
     async cancelAllLinearOrders(symbol) {
         let params = {
             category: "linear",

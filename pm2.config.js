@@ -1,11 +1,11 @@
 module.exports = {
     apps: [
         {
-            name: "stat_bbmm_will",
+            name: "stat_bbmm_daphne1",
             script: "stat.js",
-            args: "--account will",
-            out_file: "logs/stat-bnmm-will-out.log",
-            error_file: "logs/stat-bnmm-will-out.log",
+            args: "--account bb-daphne1",
+            out_file: "logs/stat-bnmm-daphne1-out.log",
+            error_file: "logs/stat-bnmm-daphne1-out.log",
         },
     ],
 };

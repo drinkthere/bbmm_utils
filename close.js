@@ -29,7 +29,7 @@ const closePositions = async () => {
         const tickerMap = await exchangeClient.getLinearTickers();
 
         // 获取position
-        const positions = await exchangeClient.getLinearPositions();
+        let positions = await exchangeClient.getLinearPositions();
         positions = positions.filter((i) => i.size != 0);
 
         let i = 0;
@@ -53,7 +53,7 @@ const closePositions = async () => {
                         "Sell",
                         position.symbol,
                         position.size,
-                        ticker.askPrice,
+                        ticker.askPrice.toString(),
                         genClientOrderId()
                     );
                 } else if (position.side == "Sell") {
@@ -74,13 +74,6 @@ const closePositions = async () => {
 };
 
 const main = async () => {
-    await exchangeClient.placeLinearOrder(
-        "Sell",
-        "BTCUSDT",
-        "0.001",
-        "66000",
-        genClientOrderId()
-    );
-    //closePositions();
+    closePositions();
 };
 main();
