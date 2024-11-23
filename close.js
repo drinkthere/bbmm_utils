@@ -61,7 +61,7 @@ const closePositions = async () => {
                         "Buy",
                         position.symbol,
                         position.size,
-                        ticker.bidPrice,
+                        ticker.bidPrice.toString(),
                         genClientOrderId()
                     );
                 }

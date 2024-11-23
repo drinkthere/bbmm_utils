@@ -22,19 +22,45 @@ let options = {
 };
 const exchangeClient = new BybitClient(options);
 const transferAsset = async () => {
-    const coin = "USDT";
-    const amount = "20";
+    const coin = "ETH";
+    const amount = "50";
     const result = await exchangeClient.transferAsset(
         genClientOrderId(),
         coin,
         amount,
-        "UNIFIED",
-        "FUND"
+        "FUND",
+        "UNIFIED"
     );
     console.log(result.status);
 };
 
+const uniTransferAsset = async () => {
+    // const coin = "USDT";
+    // const amount = "20";
+    // const fromMemberId = 369060435
+    // const toMemberId = 369060338
+    // const result = await exchangeClient.uniTransferAsset(
+    //     genClientOrderId(),
+    //     coin,
+    //     amount,
+    //     fromMemberId,
+    //     toMemberId,
+    //     "UNIFIED",
+    //     "UNIFIED"
+    // );
+
+    // // account type
+    // // CONTRACT 反向合約帳戶 统一账户1.0有，2.0只有下面两个
+    // // FUND 資金帳戶
+    // // UNIFIED 统一账户
+    // console.log(result.status);
+
+    const result = await transferAsset();
+    console.log(result);
+};
+
 const main = async () => {
-    transferAsset();
+    //transferAsset();
+    await uniTransferAsset();
 };
 main();

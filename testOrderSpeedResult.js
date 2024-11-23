@@ -1,6 +1,6 @@
 const fs = require("fs");
-const logFile = "result.log";
-const title = "Bybit WS";
+const logFile = "public.log";
+const title = "Bybit Ws Public";
 {
     // 读取public.log文件内容
     const data = fs.readFileSync(logFile, "utf-8").trim().split("\n");

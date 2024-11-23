@@ -51,7 +51,7 @@ const orderUpdateHandler = async (orders) => {
                 log(msg);
 
                 // 将订单写入数据库
-                await statOrderService.saveOrder(`tb_order_${account}`, {
+                await statOrderService.saveOrder("`tb_order_" + account + "`", {
                     symbol,
                     side,
                     quantity,
@@ -209,10 +209,10 @@ const scheduleStatProfit = () => {
 };
 
 const main = async () => {
-    // exchangeClient.initWsEventHandler({
-    //     orders: orderUpdateHandler,
-    // });
-    // exchangeClient.wsOrders();
+    exchangeClient.initWsEventHandler({
+        orders: orderUpdateHandler,
+    });
+    exchangeClient.wsOrders();
     scheduleStatProfit();
 };
 main();

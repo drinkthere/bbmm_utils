@@ -9,22 +9,23 @@ if (!fileExists(cfgFile)) {
 }
 const configs = require(cfgFile);
 
-const { account } = require("minimist")(process.argv.slice(2));
+let { account, intranet } = require("minimist")(process.argv.slice(2));
 if (account == null) {
     log("node getAccountInfo.js --account=xxx");
     process.exit();
 }
-
+intranet = intranet == "true" ? true : false;
 const keyIndex = configs.keyIndexMap[account];
 
 let options = {
     keyIndex,
+    intranet,
 };
 const exchangeClient = new BybitClient(options);
 
 const symbol = "XRPUSDT";
 const size = "10";
-const price = "0.5";
+const price = "1";
 
 const orderUpdateHandler = async (orders) => {
     for (let order of orders) {
@@ -53,7 +54,13 @@ const main = async () => {
     exchangeClient.wsOrders();
     await sleep(3000);
 
+    let limit = 100;
+    let i = 0;
     scheduleLoopTask(async () => {
+        if (i >= limit) {
+            process.exit();
+        }
+        i++;
         const clientOrderId = genClientOrderId();
         // 下单
         console.log(`${clientOrderId} NEWSUBMIT ${Date.now()}`);

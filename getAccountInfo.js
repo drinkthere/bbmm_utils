@@ -102,6 +102,9 @@ const main = async () => {
         );
         console.log(`Linear Commission Rate: ${fcommissionRate.makerFeeRate}`);
         console.log();
+        const mmRate = parseFloat(balances[0]["accountMMRate"]);
+        let marginRatio = mmRate > 0 ? 1 / mmRate : 999;
+        console.log(`marginRatio is ${marginRatio}`);
     } catch (e) {
         console.error(e);
     }

@@ -18,10 +18,18 @@ class BybitClient {
         if (options.keyIndex) {
             keyIndex = options.keyIndex;
         }
+
         // 初始化Binance client
         config["key"] = apiKeyArr[keyIndex];
         config["secret"] = apiSecretArr[keyIndex];
+        if (options.intranet) {
+            config["baseUrl"] =
+                "https://4y3rm6qs8pzu2iwk28yq74hyxftwbcib.bybit.com";
+            config["wsBaseUrl"] =
+                "wss://z6f8wpdq5grrtyo6cgd26quu6y3jjtmx.bybit-aws.com";
+        }
 
+        //console.log(config);process.exit();
         let restConfig = Object.assign(config, { recv_window: 10000 });
         this.client = new RestClientV5(restConfig);
 
@@ -37,6 +45,28 @@ class BybitClient {
             //silly: (...params) => console.log("silly", ...params),
         };
         this.wsClient = new WebsocketClient(wsConfig, logger);
+    }
+
+    async getCollateralInfo() {
+        const resp = await this.client.getCollateralInfo();
+        if (resp.retCode === 0) {
+            return resp.result.list;
+        } else {
+            console.error("getCollateralInfo FAILED, error: ", resp);
+            return [];
+        }
+    }
+
+    async batchSetCollateralCoin(coins) {
+        const resp = await this.client.batchSetCollateralCoin({
+            request: coins,
+        });
+        if (resp.retCode === 0) {
+            return resp.result.list;
+        } else {
+            console.error("batchSetCollateralCoin FAILED, error: ", resp);
+            return [];
+        }
     }
 
     async getLinearTickers() {
@@ -202,6 +232,132 @@ class BybitClient {
             return resp.result;
         } else {
             console.error("transferAsset FAILED, error: ", resp);
+            return [];
+        }
+    }
+
+    async uniTransferAsset(
+        transferId,
+        coin,
+        amount,
+        fromMemberId,
+        toMemberId,
+        fromAccountType,
+        toAccountType
+    ) {
+        const resp = await this.client.createUniversalTransfer(
+            transferId,
+            coin,
+            amount,
+            fromMemberId,
+            toMemberId,
+            fromAccountType,
+            toAccountType
+        );
+        if (resp.retCode === 0) {
+            return resp.result;
+        } else {
+            console.error("transferAsset FAILED, error: ", resp);
+            return [];
+        }
+    }
+
+    async setMarginMode(marginMode) {
+        const resp = await this.client.setMarginMode(marginMode);
+        if (resp.retCode === 0) {
+            return resp.result;
+        } else {
+            console.error("setMarginMode FAILED, error: ", resp);
+            return [];
+        }
+    }
+
+    async getAccountInfo() {
+        const resp = await this.client.getAccountInfo();
+        if (resp.retCode === 0) {
+            return resp.result;
+        } else {
+            console.error("listSubAccount FAILED, error: ", resp);
+            return [];
+        }
+    }
+
+    async upgradeAccount(username, memberType = 1) {
+        const resp = await this.client.upgradeToUnifiedAccount({});
+        if (resp.retCode === 0) {
+            return resp.result;
+        } else {
+            console.error("upgradeAccount FAILED, error: ", resp);
+            return [];
+        }
+    }
+
+    async listSubAccount() {
+        const resp = await this.client.getSubUIDList();
+        if (resp.retCode === 0) {
+            return resp.result;
+        } else {
+            console.error("listSubAccount FAILED, error: ", resp);
+            return [];
+        }
+    }
+
+    async createSubAccount(username, memberType = 1) {
+        const resp = await this.client.createSubMember({
+            username,
+            memberType,
+        });
+        if (resp.retCode === 0) {
+            return resp.result;
+        } else {
+            console.error("createSubAccount FAILED, error: ", resp);
+            return [];
+        }
+    }
+
+    async getQueryApiKey() {
+        const resp = await this.client.getQueryApiKey();
+        if (resp.retCode === 0) {
+            return resp.result;
+        } else {
+            console.error("getQueryApiKey FAILED, error: ", resp);
+            return [];
+        }
+    }
+
+    async listSubAccountApiKeys(subMemberId) {
+        const resp = await this.client.getSubAccountAllApiKeys({ subMemberId });
+        if (resp.retCode === 0) {
+            return resp.result.result;
+        } else {
+            console.error("listSubAccountApiKeys FAILED, error: ", resp);
+            return [];
+        }
+    }
+
+    async createSubAccountApiKey(subuid, note, readOnly, ips, permissions) {
+        const resp = await this.client.createSubUIDAPIKey({
+            subuid,
+            note,
+            readOnly,
+            ips,
+            permissions,
+        });
+        if (resp.retCode === 0) {
+            return resp.result;
+        } else {
+            console.error("createSubAccountApiKey FAILED, error: ", resp);
+            return [];
+        }
+    }
+
+    async deleteSubAccountApiKey(apiKey) {
+        const resp = await this.client.deleteSubApiKey({ apikey: apiKey });
+        console.log(resp);
+        if (resp.retCode === 0) {
+            return resp.result;
+        } else {
+            console.error("deleteSubAccountApiKey FAILED, error: ", resp);
             return [];
         }
     }
