@@ -1,7 +1,7 @@
 {
     "dependencies": {
         "async-lock": "^1.4.1",
-        "bybit-api": "^3.10.18",
+        "bybit-api": "file:bybit-api",
         "dotenv": "^16.4.5",
         "minimist": "^1.2.8",
         "mysql": "^2.18.1",
