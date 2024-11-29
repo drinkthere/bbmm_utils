@@ -18,8 +18,6 @@ class BybitClient {
         if (options.keyIndex) {
             keyIndex = options.keyIndex;
         }
-
-        // 初始化Binance client
         config["key"] = apiKeyArr[keyIndex];
         config["secret"] = apiSecretArr[keyIndex];
         if (options.intranet) {
@@ -29,8 +27,14 @@ class BybitClient {
                 "wss://z6f8wpdq5grrtyo6cgd26quu6y3jjtmx.bybit-aws.com";
         }
 
-        //console.log(config);process.exit();
-        let restConfig = Object.assign(config, { recv_window: 10000 });
+        if (options.localAddress != "") {
+            config["localAddress"] = options.localAddress;
+        }
+        //console.log(config);
+        let restConfig = Object.assign(config, {
+            recv_window: 10000,
+            parseAPIRateLimits: true,
+        });
         this.client = new RestClientV5(restConfig);
 
         let wsConfig = Object.assign(config, { market: "v5" });
@@ -87,6 +91,34 @@ class BybitClient {
         }
     }
 
+    async getInstruments(category) {
+        const resp = await this.client.getInstrumentsInfo({
+            category,
+        });
+        if (resp.retCode === 0) {
+            return resp.result.list
+                .filter(
+                    (item) =>
+                        item.status == "Trading" &&
+                        item.quoteCoin == "USDT" &&
+                        !item.symbol.startsWith("100")
+                )
+                .map((item) => {
+                    return {
+                        instID: item.symbol,
+                        baseCoin: item.baseCoin,
+                        quoteCoin: item.quoteCoin,
+                        priceTickSize: item.priceFilter.tickSize,
+                        qtyTickSize: item.lotSizeFilter.qtyStep,
+                        maxLmtAmt: item.lotSizeFilter.postOnlyMaxOrderQty,
+                    };
+                });
+        } else {
+            console.error("getInstruments FAILED, error: ", resp);
+            return [];
+        }
+    }
+
     async getPortfolioAccountBalances() {
         const resp = await this.client.getWalletBalance({
             accountType: "UNIFIED",
@@ -126,16 +158,27 @@ class BybitClient {
     }
 
     async getLinearOpenOrders() {
-        const resp = await this.client.getActiveOrders({
-            category: "linear",
-            settleCoin: "USDT",
-        });
-        if (resp.retCode === 0) {
-            return resp.result.list;
-        } else {
-            console.error("getLinearOpenOrders FAILED, error: ", resp);
-            return [];
-        }
+        let allOrders = [];
+        let cursor = ""; // 初始游标
+        let limit = 50; // 每页获取的订单数量
+
+        do {
+            const resp = await this.client.getActiveOrders({
+                category: "linear",
+                settleCoin: "USDT",
+                limit,
+                cursor,
+            });
+            // 检查响应中的订单数据
+            if (resp && resp.retCode === 0 && resp.result.list.length > 0) {
+                allOrders = allOrders.concat(resp.result.list); // 将当前页的订单添加到总订单列表
+            }
+
+            // 更新游标
+            cursor = resp.result.nextPageCursor; // 获取下一页的游标
+        } while (cursor); // 当还有游标时继续循环
+
+        return allOrders;
     }
 
     async placeLinearOrder(side, symbol, size, price, orderLinkId) {
@@ -150,9 +193,19 @@ class BybitClient {
             orderLinkId,
         });
         if (resp.retCode === 0) {
-            return resp.result;
+            return resp;
         } else {
             console.error("placeLinearOrder FAILED, error: ", resp);
+            return [];
+        }
+    }
+
+    async batchPlaceLinearOrder(orders) {
+        const resp = await this.client.batchSubmitOrders("linear", orders);
+        if (resp.retCode === 0) {
+            return resp;
+        } else {
+            console.error("batchPlaceLinearOrder FAILED, error: ", resp);
             return [];
         }
     }
@@ -166,9 +219,19 @@ class BybitClient {
 
         const resp = await this.client.cancelOrder(params);
         if (resp.retCode === 0) {
-            return resp.result;
+            return resp;
         } else {
             console.error("cancelLinearOrder FAILED, error: ", resp);
+            return [];
+        }
+    }
+
+    async batchCancelLinearOrder(orders) {
+        const resp = await this.client.batchCancelOrders("linear", orders);
+        if (resp.retCode === 0) {
+            return resp;
+        } else {
+            console.error("batchCancelLinearOrder FAILED, error: ", resp);
             return [];
         }
     }
@@ -302,10 +365,12 @@ class BybitClient {
         }
     }
 
-    async createSubAccount(username, memberType = 1) {
+    async createSubAccount(username, note) {
         const resp = await this.client.createSubMember({
             username,
-            memberType,
+            memberType: 1,
+            isUta: true,
+            note,
         });
         if (resp.retCode === 0) {
             return resp.result;
@@ -358,6 +423,22 @@ class BybitClient {
             return resp.result;
         } else {
             console.error("deleteSubAccountApiKey FAILED, error: ", resp);
+            return [];
+        }
+    }
+
+    async updateSubAccountApiKey(apiKey, readOnly, ips, permissions) {
+        const resp = await this.client.updateSubApiKey({
+            apikey: apiKey,
+            readOnly,
+            ips,
+            permissions,
+        });
+        console.log(resp);
+        if (resp.retCode === 0) {
+            return resp.result;
+        } else {
+            console.error("updateSubAccountApiKey FAILED, error: ", resp);
             return [];
         }
     }

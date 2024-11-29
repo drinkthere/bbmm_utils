@@ -397,80 +397,80 @@ function getWsUrl(wsKey, wsClientOptions, logger) {
     const networkKey = isTestnet ? "testnet" : "livenet";
     switch (wsKey) {
         case exports.WS_KEY_MAP.linearPublic: {
-            return exports.WS_BASE_URL_MAP.linear.public[networkKey];
+            return postGetWsUrl(exports.WS_BASE_URL_MAP.linear.public[networkKey], wsClientOptions.wsBaseUrl);
         }
         case exports.WS_KEY_MAP.linearPrivate: {
-            return exports.WS_BASE_URL_MAP.linear.private[networkKey];
+            return postGetWsUrl(exports.WS_BASE_URL_MAP.linear.private[networkKey], wsClientOptions.wsBaseUrl);
         }
         case exports.WS_KEY_MAP.spotPublic: {
-            return exports.WS_BASE_URL_MAP.spot.public[networkKey];
+            return postGetWsUrl(exports.WS_BASE_URL_MAP.spot.public[networkKey], wsClientOptions.wsBaseUrl);
         }
         case exports.WS_KEY_MAP.spotPrivate: {
-            return exports.WS_BASE_URL_MAP.spot.private[networkKey];
+            return postGetWsUrl(exports.WS_BASE_URL_MAP.spot.private[networkKey], wsClientOptions.wsBaseUrl);
         }
         case exports.WS_KEY_MAP.spotV3Public: {
-            return exports.WS_BASE_URL_MAP.spotv3.public[networkKey];
+            return postGetWsUrl(exports.WS_BASE_URL_MAP.spotv3.public[networkKey], wsClientOptions.wsBaseUrl);
         }
         case exports.WS_KEY_MAP.spotV3Private: {
-            return exports.WS_BASE_URL_MAP.spotv3.private[networkKey];
+            return postGetWsUrl(exports.WS_BASE_URL_MAP.spotv3.private[networkKey], wsClientOptions.wsBaseUrl);
         }
         case exports.WS_KEY_MAP.inverse: {
             // private and public are on the same WS connection
-            return exports.WS_BASE_URL_MAP.inverse.public[networkKey];
+            return postGetWsUrl(exports.WS_BASE_URL_MAP.inverse.public[networkKey], wsClientOptions.wsBaseUrl);
         }
         case exports.WS_KEY_MAP.usdcOptionPublic: {
-            return exports.WS_BASE_URL_MAP.usdcOption.public[networkKey];
+            return postGetWsUrl(exports.WS_BASE_URL_MAP.usdcOption.public[networkKey], wsClientOptions.wsBaseUrl);
         }
         case exports.WS_KEY_MAP.usdcOptionPrivate: {
-            return exports.WS_BASE_URL_MAP.usdcOption.private[networkKey];
+            return postGetWsUrl(exports.WS_BASE_URL_MAP.usdcOption.private[networkKey], wsClientOptions.wsBaseUrl);
         }
         case exports.WS_KEY_MAP.usdcPerpPublic: {
-            return exports.WS_BASE_URL_MAP.usdcPerp.public[networkKey];
+            return postGetWsUrl(exports.WS_BASE_URL_MAP.usdcPerp.public[networkKey], wsClientOptions.wsBaseUrl);
         }
         case exports.WS_KEY_MAP.usdcPerpPrivate: {
-            return exports.WS_BASE_URL_MAP.usdcPerp.private[networkKey];
+            return postGetWsUrl(exports.WS_BASE_URL_MAP.usdcPerp.private[networkKey], wsClientOptions.wsBaseUrl);
         }
         case exports.WS_KEY_MAP.unifiedOptionPublic: {
-            return exports.WS_BASE_URL_MAP.unifiedOption.public[networkKey];
+            return postGetWsUrl(exports.WS_BASE_URL_MAP.unifiedOption.public[networkKey], wsClientOptions.wsBaseUrl);
         }
         case exports.WS_KEY_MAP.unifiedPerpUSDTPublic: {
-            return exports.WS_BASE_URL_MAP.unifiedPerpUSDT.public[networkKey];
+            return postGetWsUrl(exports.WS_BASE_URL_MAP.unifiedPerpUSDT.public[networkKey], wsClientOptions.wsBaseUrl);
         }
         case exports.WS_KEY_MAP.unifiedPerpUSDCPublic: {
-            return exports.WS_BASE_URL_MAP.unifiedPerpUSDC.public[networkKey];
+            return postGetWsUrl(exports.WS_BASE_URL_MAP.unifiedPerpUSDC.public[networkKey], wsClientOptions.wsBaseUrl);
         }
         case exports.WS_KEY_MAP.unifiedPrivate: {
-            return exports.WS_BASE_URL_MAP.unifiedPerp.private[networkKey];
+            return postGetWsUrl(exports.WS_BASE_URL_MAP.unifiedPerp.private[networkKey], wsClientOptions.wsBaseUrl);
         }
         case exports.WS_KEY_MAP.contractInversePrivate: {
-            return exports.WS_BASE_URL_MAP.contractInverse.private[networkKey];
+            return postGetWsUrl(exports.WS_BASE_URL_MAP.contractInverse.private[networkKey], wsClientOptions.wsBaseUrl);
         }
         case exports.WS_KEY_MAP.contractInversePublic: {
-            return exports.WS_BASE_URL_MAP.contractInverse.public[networkKey];
+            return postGetWsUrl(exports.WS_BASE_URL_MAP.contractInverse.public[networkKey], wsClientOptions.wsBaseUrl);
         }
         case exports.WS_KEY_MAP.contractUSDTPrivate: {
-            return exports.WS_BASE_URL_MAP.contractUSDT.private[networkKey];
+            return postGetWsUrl(exports.WS_BASE_URL_MAP.contractUSDT.private[networkKey], wsClientOptions.wsBaseUrl);
         }
         case exports.WS_KEY_MAP.contractUSDTPublic: {
-            return exports.WS_BASE_URL_MAP.contractUSDT.public[networkKey];
+            return postGetWsUrl(exports.WS_BASE_URL_MAP.contractUSDT.public[networkKey], wsClientOptions.wsBaseUrl);
         }
         case exports.WS_KEY_MAP.v5Private: {
-            return exports.WS_BASE_URL_MAP.v5.private[networkKey];
+            return postGetWsUrl(exports.WS_BASE_URL_MAP.v5.private[networkKey], wsClientOptions.wsBaseUrl);
         }
         case exports.WS_KEY_MAP.v5Trade: {
-            return exports.WS_BASE_URL_MAP.v5.trade[networkKey];
+            return postGetWsUrl(exports.WS_BASE_URL_MAP.v5.trade[networkKey], wsClientOptions.wsBaseUrl);
         }
         case exports.WS_KEY_MAP.v5SpotPublic: {
-            return exports.WS_BASE_URL_MAP.v5SpotPublic.public[networkKey];
+            return postGetWsUrl(exports.WS_BASE_URL_MAP.v5SpotPublic.public[networkKey], wsClientOptions.wsBaseUrl);
         }
         case exports.WS_KEY_MAP.v5LinearPublic: {
-            return exports.WS_BASE_URL_MAP.v5LinearPublic.public[networkKey];
+            return postGetWsUrl(exports.WS_BASE_URL_MAP.v5LinearPublic.public[networkKey], wsClientOptions.wsBaseUrl);
         }
         case exports.WS_KEY_MAP.v5InversePublic: {
-            return exports.WS_BASE_URL_MAP.v5InversePublic.public[networkKey];
+            return postGetWsUrl(exports.WS_BASE_URL_MAP.v5InversePublic.public[networkKey], wsClientOptions.wsBaseUrl);
         }
         case exports.WS_KEY_MAP.v5OptionPublic: {
-            return exports.WS_BASE_URL_MAP.v5OptionPublic.public[networkKey];
+            return postGetWsUrl(exports.WS_BASE_URL_MAP.v5OptionPublic.public[networkKey], wsClientOptions.wsBaseUrl);
         }
         default: {
             logger.error("getWsUrl(): Unhandled wsKey: ", {
@@ -480,6 +480,16 @@ function getWsUrl(wsKey, wsClientOptions, logger) {
             throw neverGuard(wsKey, "getWsUrl(): Unhandled wsKey");
         }
     }
+}
+
+function postGetWsUrl(url, intranetWsUrl) {
+    if (intranetWsUrl == "" || intranetWsUrl == undefined) {
+        return url
+    }
+    
+    
+    const oldUrl = "wss://stream.bybit.com";
+    return url.replace(new RegExp(oldUrl, 'g'), intranetWsUrl);
 }
 exports.getWsUrl = getWsUrl;
 function getMaxTopicsPerSubscribeEvent(market, wsKey) {

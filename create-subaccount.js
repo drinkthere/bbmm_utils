@@ -1,6 +1,7 @@
 const BybitClient = require("./clients/bybit");
 const { sleep, fileExists } = require("./utils/run");
 const { log } = require("./utils/log");
+const { genClientOrderId } = require("./utils/common");
 const cfgFile = `./configs/config.json`;
 if (!fileExists(cfgFile)) {
     log(`config file ${cfgFile} does not exits`);
@@ -30,21 +31,31 @@ const listSubAccount = async () => {
     }
 };
 
-const createSubAccount = async () => {
-    const result = await exchangeClient.createSubAccount("bbdcs001", 1);
+const createSubAccount = async (accountName, note) => {
+    const result = await exchangeClient.createSubAccount(accountName, note);
     console.log(result);
 };
+
 const main = async () => {
-    const subaccounts = await listSubAccount();
-    console.log(`There are ${subaccounts.length} sub-account`);
-    if (subaccounts.length > 0) {
-        for (let sub of subaccounts) {
-            //console.log(sub)
-            console.log(
-                `uid=${sub.uid} remark=${sub.remark} accountMode=${sub.accountMode} username=${sub.username}`
-            );
-        }
-    }
-    // await createSubAccount();
+    // const subaccounts = await listSubAccount();
+    // console.log(`There are ${subaccounts.length} sub-account`);
+    // if (subaccounts.length > 0) {
+    //     for (let sub of subaccounts) {
+    //         //console.log(sub)
+    //         console.log(
+    //             `uid=${sub.uid} remark=${sub.remark} accountMode=${sub.accountMode} username=${sub.username}`
+    //         );
+    //     }
+    // }
+
+    // for (let i = 0; i <= 9; i++) {
+    //     uid = genClientOrderId().slice(0, 11)
+    //     const accountName = `Bybit${uid}`
+    //     const note = `bb12${i}`
+    //     //console.log(accountName, note)
+    //     await createSubAccount(accountName, note);
+    //     await sleep(1000)
+    // }
+    await createSubAccount("Bybit04f1403ac98", "bb082");
 };
 main();

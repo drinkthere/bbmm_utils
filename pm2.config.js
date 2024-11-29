@@ -105,5 +105,61 @@ module.exports = {
             out_file: "/data/will/bbmm/stat-bnmm-bb011-out.log",
             error_file: "/data/will/bbmm//stat-bnmm-bb011-error.log",
         },
+        {
+            name: "stat_bbmm_bb012",
+            script: "/bin/bash", // 使用 Bash 作为解释器
+            args: '-c "taskset -c 0 node stat.js --account bb012"', // 传递给 bash 的完整命令
+            out_file: "/data/will/bbmm/stat-bnmm-bb012-out.log",
+            error_file: "/data/will/bbmm//stat-bnmm-bb012-error.log",
+        },
+        {
+            name: "stat_bbmm_bb013",
+            script: "/bin/bash", // 使用 Bash 作为解释器
+            args: '-c "taskset -c 0 node stat.js --account bb013"', // 传递给 bash 的完整命令
+            out_file: "/data/will/bbmm/stat-bnmm-bb013-out.log",
+            error_file: "/data/will/bbmm//stat-bnmm-bb013-error.log",
+        },
+        {
+            name: "stat_bbmm_bb014",
+            script: "/bin/bash", // 使用 Bash 作为解释器
+            args: '-c "taskset -c 0 node stat.js --account bb014"', // 传递给 bash 的完整命令
+            out_file: "/data/will/bbmm/stat-bnmm-bb014-out.log",
+            error_file: "/data/will/bbmm//stat-bnmm-bb014-error.log",
+        },
+        {
+            name: "stat_bbmm_bb015",
+            script: "/bin/bash", // 使用 Bash 作为解释器
+            args: '-c "taskset -c 0 node stat.js --account bb015"', // 传递给 bash 的完整命令
+            out_file: "/data/will/bbmm/stat-bnmm-bb015-out.log",
+            error_file: "/data/will/bbmm//stat-bnmm-bb015-error.log",
+        },
+        {
+            name: "stat_bbmm_bb016",
+            script: "/bin/bash", // 使用 Bash 作为解释器
+            args: '-c "taskset -c 0 node stat.js --account bb016"', // 传递给 bash 的完整命令
+            out_file: "/data/will/bbmm/stat-bnmm-bb016-out.log",
+            error_file: "/data/will/bbmm//stat-bnmm-bb016-error.log",
+        },
+        {
+            name: "stat_bbmm_bb017",
+            script: "/bin/bash", // 使用 Bash 作为解释器
+            args: '-c "taskset -c 0 node stat.js --account bb017"', // 传递给 bash 的完整命令
+            out_file: "/data/will/bbmm/stat-bnmm-bb017-out.log",
+            error_file: "/data/will/bbmm//stat-bnmm-bb017-error.log",
+        },
+        {
+            name: "stat_bbmm_bb018",
+            script: "/bin/bash", // 使用 Bash 作为解释器
+            args: '-c "taskset -c 0 node stat.js --account bb018"', // 传递给 bash 的完整命令
+            out_file: "/data/will/bbmm/stat-bnmm-bb018-out.log",
+            error_file: "/data/will/bbmm//stat-bnmm-bb018-error.log",
+        },
+        {
+            name: "stat_bbmm_bb019",
+            script: "/bin/bash", // 使用 Bash 作为解释器
+            args: '-c "taskset -c 0 node stat.js --account bb019"', // 传递给 bash 的完整命令
+            out_file: "/data/will/bbmm/stat-bnmm-bb019-out.log",
+            error_file: "/data/will/bbmm//stat-bnmm-bb019-error.log",
+        },
     ],
 };

@@ -64,6 +64,64 @@ class BinanceClient {
         return await this.client.prices();
     }
 
+    async futuresInstruments() {
+        const result = await this.client.futuresExchangeInfo();
+        return result.symbols.filter((item) => {
+            return (
+                item.status == "TRADING" &&
+                ![
+                    "USDC",
+                    "BUSD",
+                    "DAI",
+                    "SRM",
+                    "HNT",
+                    "TOMO",
+                    "CVC",
+                    "BTS",
+                    "SC",
+                    "RAY",
+                    "FTT",
+                    "COCOS",
+                    "STRAX",
+                ].includes(item.baseAsset) &&
+                ![
+                    "CTKUSDT",
+                    "DGBUSDT",
+                    "ANTUSDT",
+                    "BLUEBIRDUSDT",
+                    "FOOTBALLUSDT",
+                ].includes(item.symbol) &&
+                item.contractType == "PERPETUAL" &&
+                item.quoteAsset == "USDT"
+            );
+        });
+    }
+
+    async spotInstruments() {
+        const result = await this.client.exchangeInfo();
+        return result.symbols.filter((item) => {
+            return (
+                item.status == "TRADING" &&
+                item.quoteAsset == "USDT" &&
+                ![
+                    "USDC",
+                    "BUSD",
+                    "DAI",
+                    "SRM",
+                    "HNT",
+                    "TOMO",
+                    "CVC",
+                    "BTS",
+                    "SC",
+                    "RAY",
+                    "FTT",
+                    "COCOS",
+                    "STRAX",
+                ].includes(item.baseAsset)
+            );
+        });
+    }
+
     async getFuturesTickers() {
         return await this.client.futuresQuote();
     }

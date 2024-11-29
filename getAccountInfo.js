@@ -8,16 +8,18 @@ if (!fileExists(cfgFile)) {
 }
 const configs = require(cfgFile);
 
-const { account } = require("minimist")(process.argv.slice(2));
+let { account, intranet } = require("minimist")(process.argv.slice(2));
 if (account == null) {
     log("node getAccountInfo.js --account=xxx");
     process.exit();
 }
-
+intranet = intranet == "true" ? true : false;
 const keyIndex = configs.keyIndexMap[account];
 
 let options = {
     keyIndex,
+    intranet,
+    localAddress: "192.168.21.38",
 };
 const exchangeClient = new BybitClient(options);
 

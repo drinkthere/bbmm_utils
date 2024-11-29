@@ -111,7 +111,7 @@ const scheduleStatProfit = () => {
                     if (parseFloat(item.walletBalance) > 0) {
                         bal =
                             parseFloat(
-                                tickersMap[item.asset + "USDT"]["bidPrice"]
+                                tickersMap[item.coin + "USDT"]["bidPrice"]
                             ) * parseFloat(item.walletBalance);
                     }
                 }

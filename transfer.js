@@ -23,7 +23,7 @@ let options = {
 const exchangeClient = new BybitClient(options);
 const transferAsset = async () => {
     const coin = "ETH";
-    const amount = "50";
+    const amount = "80";
     const result = await exchangeClient.transferAsset(
         genClientOrderId(),
         coin,

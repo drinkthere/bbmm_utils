@@ -577,6 +577,7 @@ class WebsocketClient extends events_1.EventEmitter {
                     this.options,
                     this.logger
                 );
+                //console.log(url);process.exit();
                 const ws = this.connectToWsUrl(url + authParams, wsKey);
                 return this.wsStore.setWs(wsKey, ws);
             } catch (err) {
@@ -1246,6 +1247,7 @@ class WebsocketClient extends events_1.EventEmitter {
                     true,
                     category
                 );
+                // console.log(wsKey);process.exit();
                 // if connected, send subscription request
                 if (
                     this.wsStore.isConnectionState(
