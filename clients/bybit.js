@@ -18,8 +18,14 @@ class BybitClient {
         if (options.keyIndex) {
             keyIndex = options.keyIndex;
         }
-        config["key"] = apiKeyArr[keyIndex];
-        config["secret"] = apiSecretArr[keyIndex];
+        if (keyIndex == -1) {
+            config["key"] = "";
+            config["secret"] = "";
+        } else {
+            config["key"] = apiKeyArr[keyIndex];
+            config["secret"] = apiSecretArr[keyIndex];
+        }
+
         if (options.intranet) {
             config["baseUrl"] =
                 "https://4y3rm6qs8pzu2iwk28yq74hyxftwbcib.bybit.com";
@@ -49,6 +55,48 @@ class BybitClient {
             //silly: (...params) => console.log("silly", ...params),
         };
         this.wsClient = new WebsocketClient(wsConfig, logger);
+    }
+
+    async getKline(category, symbol, interval, limit) {
+        const resp = await this.client.getKline({
+            category,
+            symbol,
+            interval,
+            limit,
+        });
+        if (resp.retCode === 0) {
+            return resp.result.list;
+        } else {
+            console.error("getKline FAILED, error: ", resp);
+            return [];
+        }
+    }
+
+    async getInstitutionalLendingProductInfo() {
+        const resp = await this.client.getInstitutionalLendingProductInfo();
+        if (resp.retCode === 0) {
+            return resp.result.marginProductInfo;
+        } else {
+            console.error(
+                "getInstitutionalLendingProductInfo FAILED, error: ",
+                resp
+            );
+            return [];
+        }
+    }
+
+    async getInstitutionalLendingLoanOrders() {
+        const resp = await this.client.getInstitutionalLendingLoanOrders({});
+        console.log(resp);
+        if (resp.retCode === 0) {
+            return resp.result.marginProductInfo;
+        } else {
+            console.error(
+                "getInstitutionalLendingLoanOrders FAILED, error: ",
+                resp
+            );
+            return [];
+        }
     }
 
     async getCollateralInfo() {

@@ -19,7 +19,7 @@ const keyIndex = configs.keyIndexMap[account];
 let options = {
     keyIndex,
     intranet,
-    localAddress: "192.168.21.38",
+    localAddress: "10.0.1.95",
 };
 const exchangeClient = new BybitClient(options);
 
@@ -99,9 +99,8 @@ const main = async () => {
         }
         console.log();
 
-        const fcommissionRate = await exchangeClient.getLinearCommissionRate(
-            "BTCUSDT"
-        );
+        const fcommissionRate =
+            await exchangeClient.getLinearCommissionRate("BTCUSDT");
         console.log(`Linear Commission Rate: ${fcommissionRate.makerFeeRate}`);
         console.log();
         const mmRate = parseFloat(balances[0]["accountMMRate"]);

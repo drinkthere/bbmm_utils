@@ -31,7 +31,8 @@ const getAccountInfo = async () => {
     console.log(result);
 };
 const main = async () => {
-    await getAccountInfo();
-    //await upgradeAccount();
+    //await getAccountInfo();
+
+    await upgradeAccount();
 };
 main();
